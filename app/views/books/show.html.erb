@@ -1,0 +1,50 @@
+<% if flash[:create] %>
+<% end %>
+<div class ="container px-5 px-sm-0">
+  <div class ="row">
+    <div class ="col-md-3">
+      <div class="error-message">
+        <% if @book %>
+          <% if @books.errors.any? %>
+            <h2><%= @books.errors.count %>errors prohibited this obj from being saved:</h2>
+            <ul>
+              <% @books.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          <% end %>
+        <% end %>
+      </div>
+      <%= render "layouts/user_info", book: @books, user: @users %>
+    </div>
+  
+    <div class="col-md-8 offset-md-1">
+      <h2>Book detail</h2>
+      <table class ="table table-hover table-inverse">
+        <thead></thead>
+        <tbody>
+          <tr>
+            <td>
+              <%= link_to user_path(@users) do %>
+                <%= attachment_image_tag @users, :profile_image, :fill, 40, 40, fallback: "no_image.jpg" %></br>
+                <%= @users.name %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to @book.title, book_path(@users) %>
+            </td>
+            <td>
+              <%= @book.body %>
+            </td>
+            <td>
+              <% if current_user == @users%>
+                <%= link_to 'Edit', edit_book_path(@book.id), class: "btn btn-sm btn-success" %>
+                <%= link_to 'Destroy', book_path(@book.id), method: :delete, "data-confirm" => "本当に消しますか？", class: "btn btn-sm btn-danger" %>
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
